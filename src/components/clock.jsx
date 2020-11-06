@@ -1,23 +1,73 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core";
 import grey from "@material-ui/core/colors/grey";
 
 const useStyles = makeStyles(theme => ({
   clockStyle: {
     background: grey[100],
+    width: 200,
+    height: 100,
+    paddingRight: 10,
+    paddingBottom: 5,
+    textAlign: "right",
+  },
+  upperHour: {
+    fontSize: 30,
+    fontWeight: "bold",
+  },
+  lowerDate: {
+    fontSize: 20,
   },
 }));
 
 function Clock(props) {
-  const time = new Date();
+  //const time = new Date();
   const classes = useStyles();
+  const [time, setTime] = useState(null);
+  const [seconds, setSeconds] = useState(0);
+  const [minutes, setMinutes] = useState(0);
+  const [hours, setHours] = useState(0);
 
-  return (
-    <div className={classes.clockStyle}>
-      <p>{time.toDateString()}</p>
-      <p>{time.getSeconds()}</p>
-    </div>
-  );
+  function fetchTime() {
+    let newTime = new Date();
+    if (newTime.getSeconds() < 10) {
+      setSeconds("0" + newTime.getSeconds());
+    } else {
+      setSeconds(newTime.getSeconds());
+    }
+    if (newTime.getMinutes() < 10) {
+      setMinutes("0" + newTime.getMinutes());
+    } else {
+      setMinutes(newTime.getMinutes());
+    }
+    if (newTime.getHours() < 10) {
+      setHours("0" + newTime.getHours());
+    } else {
+      setHours(newTime.getHours());
+    }
+    setTime(newTime);
+    console.log("jebać pis");
+  }
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchTime();
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  if (time) {
+    return (
+      <div className={classes.clockStyle}>
+        <p className={classes.upperHour}>
+          {hours}:{minutes}:{seconds}
+        </p>
+        <p className={classes.lowerDate}>{time.toDateString()}</p>
+      </div>
+    );
+  } else {
+    return <></>;
+  }
 }
 
 export default Clock;

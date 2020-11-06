@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import SearchIcon from "@material-ui/icons/Search";
-import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core";
 import InputBase from "@material-ui/core/InputBase";
 import Button from "@material-ui/core/Button";

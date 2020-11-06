@@ -37,7 +37,7 @@ function Home() {
         Type the city you want to check the weather for:
       </Typography>
       <CityFinder />
-      {cityNotFound && <Link to='/mainweather'>Dowiedz się</Link>}
+      {cityNotFound && <Link to='/mainweather'>Dowiedz się więcej</Link>}
     </div>
   );
 }

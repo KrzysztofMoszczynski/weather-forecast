@@ -46,7 +46,6 @@ function Clock(props) {
       setHours(newTime.getHours());
     }
     setTime(newTime);
-    console.log("jebać pis");
   }
 
   useEffect(() => {
@@ -66,7 +65,11 @@ function Clock(props) {
       </div>
     );
   } else {
-    return <></>;
+    return (
+      <div className={classes.clockStyle}>
+        <p className={classes.upperHour}>Loading...</p>
+      </div>
+    );
   }
 }
 

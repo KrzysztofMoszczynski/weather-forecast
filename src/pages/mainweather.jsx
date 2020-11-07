@@ -4,18 +4,22 @@ import Clock from "../components/clock";
 import logoBig from "../assets/images/logo.png";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
+import DayWindow from "../components/day-window";
 
 const useStyles = makeStyles(theme => ({
   contentContainer: {
     margin: 30,
+    marginTop: 10,
   },
   topBar: {
     //margin: "auto",
     display: "flex",
-    //alignContent: "center",
   },
   logoTop: {},
-  cityDisplay: {},
+  cityDisplay: {
+    textAlign: "center",
+    fontWeight: "bold",
+  },
 }));
 
 const logo = {
@@ -31,7 +35,13 @@ function MainWeather() {
   return (
     <div className={classes.contentContainer}>
       <div className={classes.topBar}>
-        <Grid container spacing={3} direction='row' justify={"space-around"}>
+        <Grid
+          container
+          spacing={3}
+          direction='row'
+          justify={"space-around"}
+          alignItems={"center"}
+        >
           <Grid item>
             <img
               src={logo.src}
@@ -50,6 +60,7 @@ function MainWeather() {
           </Grid>
         </Grid>
       </div>
+      <DayWindow />
     </div>
   );
 }

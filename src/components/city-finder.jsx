@@ -21,7 +21,7 @@ const useStyles = makeStyles({
   },
 });
 
-function CityFinder() {
+function CityFinder(props) {
   const classes = useStyles();
   const [choosenCity, setCity] = useState(null);
   const [value, setValue] = useState("");
@@ -30,6 +30,11 @@ function CityFinder() {
   async function fetchCities() {
     // database daj miasta
     console.log("city fetched");
+  }
+
+  function handleSearchButtonClick() {
+    chooseCity();
+    props.handleSearch();
   }
 
   function chooseCity() {
@@ -57,7 +62,7 @@ function CityFinder() {
         />
       </div>
       <div className={classes.searchIcon}>
-        <Button onClick={chooseCity}>
+        <Button onClick={handleSearchButtonClick}>
           <SearchIcon />
         </Button>
       </div>

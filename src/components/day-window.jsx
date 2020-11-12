@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
 import { makeStyles } from "@material-ui/core";
 import SunIcon from "../assets/images/sun.png";
 import CloudIcon from "../assets/images/cloud.png";
@@ -12,9 +12,10 @@ import CloudsAndSunIcon from "../assets/images/clouds-and-sun.png";
 import FogIcon from "../assets/images/fog.png";
 import SnowIcon from "../assets/images/snow.png";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { Rotate90DegreesCcw } from "@material-ui/icons";
 
 const useStyles = makeStyles({
-  smallContainer: {
+  container: {
     backgroundColor: "#273DFF",
     color: "#EFEFEF",
     padding: 10,
@@ -26,13 +27,48 @@ const useStyles = makeStyles({
       margin: 1,
     },
   },
+  topContainer: {
+    marginTop: 10,
+    marginBottom: 20,
+  },
+  leftTopContainer: {
+    marginTop: 50,
+  },
+  rightTopContainer: {
+    fontSize: 30,
+    paddingRight: 40,
+    paddingLeft: 10,
+    borderLeft: "solid",
+    borderWidth: 1,
+  },
+  sectionsAlignment: {
+    marginTop: 17,
+  },
+  rightTopValues: {
+    textAlign: "right",
+  },
+  weatherBar: {
+    textAlign: "center",
+  },
   avgIcon: {
     width: 80,
     height: 80,
   },
+  bigIcon: {
+    width: 150,
+    height: 150,
+  },
+  smallIcon: {
+    width: 60,
+    height: 60,
+  },
   minMaxTemp: {
     textAlign: "right",
     fontSize: 30,
+  },
+  currentTemp: {
+    fontSize: 35,
+    textAlign: "center",
   },
   minTemp: {
     opacity: "50%",
@@ -41,69 +77,232 @@ const useStyles = makeStyles({
     textAlign: "center",
     fontSize: 23,
   },
+  specificTemperature: {
+    fontSize: 30,
+  },
   avgPressureHumidityValue: {
     fontSize: 28,
   },
   dateUnderDay: {
     fontSize: 20,
   },
-  expandIcon: {
-    fontSize: 45,
+  expandButton: {
     textAlign: "center",
-    marginTop: 20,
+    marginTop: 22,
+    width: 40,
+    height: 40,
+  },
+  foldButton: {
+    float: "right",
+    width: 40,
+    height: 40,
+  },
+  expandIcon: {
+    fontSize: 30,
+    color: "#C4C4C4",
+  },
+  foldIcon: {
+    fontSize: 30,
+    color: "#C4C4C4",
+    transform: "rotate(180deg)",
   },
 });
 
 function DayWindow() {
   const classes = useStyles();
+  const [isExpanded, setIsExpanded] = useState(false);
   const [avgIcon, setAvgIcon] = useState(null);
+  const [currentWeatherIcon, setcurrentWeatherIcon] = useState(null);
   const [minTemp, setMinTemp] = useState("");
   const [maxTemp, setMaxTemp] = useState("");
   const [avgPressure, setAvgPressure] = useState("");
   const [avgHumidity, setAvgHumidity] = useState("");
+  const [tempList, setTempList] = useState(null);
+  const [tempIconsList, setTempIconsList] = useState(null);
 
   async function fetch() {
-    setAvgIcon(SunIcon);
+    setAvgIcon(CloudIcon);
+    setcurrentWeatherIcon(SunIcon);
     setMinTemp(3 + "°");
     setMaxTemp(12 + "°");
     setAvgPressure(1030 + "hPa");
     setAvgHumidity(60 + "%");
   }
 
+  async function fetchTemperatures() {
+    let _tempList = [
+      10 + "°",
+      11 + "°",
+      13 + "°",
+      14 + "°",
+      12 + "°",
+      11 + "°",
+      10 + "°",
+      9 + "°",
+    ];
+    let _tempIconsList = [
+      CloudIcon,
+      SunIcon,
+      StormIcon,
+      RainIcon,
+      HailIcon,
+      SnowIcon,
+      FogIcon,
+      HeavyRainIcon,
+    ];
+    setTempList(_tempList);
+    setTempIconsList(_tempIconsList);
+  }
+
+  function handleExpandButton() {
+    if (isExpanded) setIsExpanded(false);
+    else setIsExpanded(true);
+    console.log(isExpanded);
+  }
+
   useEffect(() => {
     fetch();
+    fetchTemperatures();
   }, []);
 
-  return (
-    <div className={classes.smallContainer}>
-      <Grid container spacing={6}>
-        <Grid item xs={2}>
-          <img src={avgIcon} className={classes.avgIcon} />
+  if (isExpanded) {
+    return (
+      <div className={classes.container}>
+        <Grid container direction='column' spacing={2}>
+          <Grid item container className={classes.topContainer}>
+            <Grid item container xs={6} className={classes.leftTopContainer}>
+              <Grid item xs className={classes.currentTemp}>
+                <p>Now</p>
+                <p>12°</p>
+                <p className={classes.avgPressureHumidityValue}>Sunny</p>
+              </Grid>
+              <Grid item xs>
+                <img src={currentWeatherIcon} className={classes.bigIcon} />
+              </Grid>
+            </Grid>
+            <Grid
+              item
+              container
+              xs={6}
+              direction='column'
+              className={classes.rightTopContainer}
+            >
+              <Grid item>
+                <IconButton
+                  className={classes.foldButton}
+                  onClick={handleExpandButton}
+                >
+                  <ExpandMoreIcon className={classes.foldIcon} />
+                </IconButton>
+              </Grid>
+              <Grid item container className={classes.sectionsAlignment}>
+                <Grid item xs>
+                  Pressure:
+                </Grid>
+                <Grid item xs className={classes.rightTopValues}>
+                  1000hPa
+                </Grid>
+              </Grid>
+              <Grid item container>
+                <Grid item xs>
+                  Humidity:
+                </Grid>
+                <Grid item xs className={classes.rightTopValues}>
+                  100%
+                </Grid>
+              </Grid>
+              <Grid item container>
+                <Grid item xs>
+                  Wind:
+                </Grid>
+                <Grid item xs className={classes.rightTopValues}>
+                  10kmph NW
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+          {tempList.length == 8 && (
+            <Grid item container className={classes.weatherBar}>
+              <Grid item xs>
+                <img src={tempIconsList[0]} className={classes.smallIcon} />
+                <p className={classes.specificTemperature}>{tempList[0]}</p>
+                <p>00:00</p>
+              </Grid>
+              <Grid item xs>
+                <img src={tempIconsList[1]} className={classes.smallIcon} />
+                <p className={classes.specificTemperature}>{tempList[1]}</p>
+                <p>03:00</p>
+              </Grid>
+              <Grid item xs>
+                <img src={tempIconsList[2]} className={classes.smallIcon} />
+                <p className={classes.specificTemperature}>{tempList[2]}</p>
+                <p>06:00</p>
+              </Grid>
+              <Grid item xs>
+                <img src={tempIconsList[3]} className={classes.smallIcon} />
+                <p className={classes.specificTemperature}>{tempList[3]}</p>
+                <p>09:00</p>
+              </Grid>
+              <Grid item xs>
+                <img src={tempIconsList[4]} className={classes.smallIcon} />
+                <p className={classes.specificTemperature}>{tempList[4]}</p>
+                <p>12:00</p>
+              </Grid>
+              <Grid item xs>
+                <img src={tempIconsList[5]} className={classes.smallIcon} />
+                <p className={classes.specificTemperature}>{tempList[5]}</p>
+                <p>15:00</p>
+              </Grid>
+              <Grid item xs>
+                <img src={tempIconsList[6]} className={classes.smallIcon} />
+                <p className={classes.specificTemperature}>{tempList[6]}</p>
+                <p>18:00</p>
+              </Grid>
+              <Grid item xs>
+                <img src={tempIconsList[7]} className={classes.smallIcon} />
+                <p className={classes.specificTemperature}>{tempList[7]}</p>
+                <p>21:00</p>
+              </Grid>
+            </Grid>
+          )}
         </Grid>
-        <Grid item xs={1} className={classes.minMaxTemp}>
-          <p>{maxTemp}</p>
-          <p className={classes.minTemp}>{minTemp}</p>
+      </div>
+    );
+  } else {
+    return (
+      <div className={classes.container}>
+        <Grid container spacing={6}>
+          <Grid item xs={2}>
+            <img src={avgIcon} className={classes.avgIcon} />
+          </Grid>
+          <Grid item xs={1} className={classes.minMaxTemp}>
+            <p>{maxTemp}</p>
+            <p className={classes.minTemp}>{minTemp}</p>
+          </Grid>
+          <Grid item xs={3} className={classes.avgPressureHumidity}>
+            <p>Pressure:</p>
+            <p className={classes.avgPressureHumidityValue}>{avgPressure}</p>
+          </Grid>
+          <Grid item xs={2} className={classes.avgPressureHumidity}>
+            <p>Humidity:</p>
+            <p className={classes.avgPressureHumidityValue}>{avgHumidity}</p>
+          </Grid>
+          <Grid item xs={3} className={classes.minMaxTemp}>
+            <p>Friday</p>
+            <p className={classes.dateUnderDay}>06 November</p>
+          </Grid>
+          <Grid item xs={1}>
+            <IconButton
+              className={classes.expandButton}
+              onClick={handleExpandButton}
+            >
+              <ExpandMoreIcon className={classes.expandIcon} />
+            </IconButton>
+          </Grid>
         </Grid>
-        <Grid item xs={3} className={classes.avgPressureHumidity}>
-          <p>Pressure:</p>
-          <p className={classes.avgPressureHumidityValue}>{avgPressure}</p>
-        </Grid>
-        <Grid item xs={2} className={classes.avgPressureHumidity}>
-          <p>Humidity:</p>
-          <p className={classes.avgPressureHumidityValue}>{avgHumidity}</p>
-        </Grid>
-        <Grid item xs={3} className={classes.minMaxTemp}>
-          <p>Friday</p>
-          <p className={classes.dateUnderDay}>06 November</p>
-        </Grid>
-        <Grid item xs={1}>
-          <Button className={classes.expandIcon}>
-            <ExpandMoreIcon />
-          </Button>
-        </Grid>
-      </Grid>
-    </div>
-  );
+      </div>
+    );
+  }
 }
 
 export default DayWindow;

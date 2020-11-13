@@ -106,6 +106,13 @@ const useStyles = makeStyles({
     color: "#C4C4C4",
     transform: "rotate(180deg)",
   },
+  unCheckedHour: {
+    cursor: "pointer",
+  },
+  checkedHour: {
+    border: "solid",
+    borderRadius: 15,
+  },
 });
 
 function DayWindow() {
@@ -119,6 +126,8 @@ function DayWindow() {
   const [avgHumidity, setAvgHumidity] = useState("");
   const [tempList, setTempList] = useState(null);
   const [tempIconsList, setTempIconsList] = useState(null);
+  const [buttonIndex, setButtonIndex] = useState(0);
+  const [hoursNumber, setHoursNumber] = useState(null);
 
   async function fetch() {
     setAvgIcon(CloudIcon);
@@ -150,14 +159,29 @@ function DayWindow() {
       FogIcon,
       HeavyRainIcon,
     ];
+    let _tempHoursIndex = [0, 1, 2, 3, 4, 5, 6, 7];
     setTempList(_tempList);
     setTempIconsList(_tempIconsList);
+    setHoursNumber(_tempHoursIndex);
   }
 
   function handleExpandButton() {
     if (isExpanded) setIsExpanded(false);
     else setIsExpanded(true);
     console.log(isExpanded);
+  }
+
+  function test() {
+    console.log("test");
+  }
+
+  /*function chooseHourStyle(index) {
+    if (index == buttonIndex) return classes.checkedHour;
+    else return classes.unCheckedHour;
+  }*/
+
+  function handleHourClick(index) {
+    setButtonIndex(index);
   }
 
   useEffect(() => {
@@ -223,7 +247,7 @@ function DayWindow() {
           </Grid>
           {tempList.length == 8 && (
             <Grid item container className={classes.weatherBar}>
-              <Grid item xs>
+              {/*<Grid item xs>
                 <img src={tempIconsList[0]} className={classes.smallIcon} />
                 <p className={classes.specificTemperature}>{tempList[0]}</p>
                 <p>00:00</p>
@@ -262,7 +286,44 @@ function DayWindow() {
                 <img src={tempIconsList[7]} className={classes.smallIcon} />
                 <p className={classes.specificTemperature}>{tempList[7]}</p>
                 <p>21:00</p>
-              </Grid>
+              </Grid>*/}
+              {hoursNumber.map(hoursNumberIndex =>
+                hoursNumberIndex == buttonIndex ? (
+                  <Grid
+                    item
+                    xs
+                    className={classes.checkedHour}
+                    key={hoursNumberIndex}
+                    onClick={() => handleHourClick(hoursNumberIndex)}
+                  >
+                    <img
+                      src={tempIconsList[hoursNumberIndex]}
+                      className={classes.smallIcon}
+                    />
+                    <p className={classes.specificTemperature}>
+                      {tempList[hoursNumberIndex]}
+                    </p>
+                    <p>21:00</p>
+                  </Grid>
+                ) : (
+                  <Grid
+                    item
+                    xs
+                    className={classes.unCheckedHour}
+                    key={hoursNumberIndex}
+                    onClick={() => handleHourClick(hoursNumberIndex)}
+                  >
+                    <img
+                      src={tempIconsList[hoursNumberIndex]}
+                      className={classes.smallIcon}
+                    />
+                    <p className={classes.specificTemperature}>
+                      {tempList[hoursNumberIndex]}
+                    </p>
+                    <p>21:00</p>
+                  </Grid>
+                )
+              )}
             </Grid>
           )}
         </Grid>

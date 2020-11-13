@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { makeStyles, Typography } from "@material-ui/core";
 import logoBig from "../assets/images/logo.png";
 import CityFinder from "../components/city-finder";
+import database from "../api/openWeatherMap";
 
 const useStyles = makeStyles(theme => ({
   pageStyle: {
@@ -28,9 +29,13 @@ const logo = {
 function Home() {
   const classes = useStyles();
   const [cityNotFound, setCityNotFound] = useState(true);
+  const [cityName, setCityName] = useState("");
 
-  function handleSearch() {
+  function handleSearch(cityName) {
     setCityNotFound(!cityNotFound);
+    setCityName(cityName);
+    console.log(cityName);
+    database.getWeatherByCityName(cityName);
   }
 
   return (

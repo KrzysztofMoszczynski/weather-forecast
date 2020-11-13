@@ -34,7 +34,7 @@ function CityFinder(props) {
 
   function handleSearchButtonClick() {
     chooseCity();
-    props.handleSearch();
+    props.handleSearch(value);
   }
 
   function chooseCity() {
@@ -44,7 +44,7 @@ function CityFinder(props) {
 
   useEffect(() => {
     fetchCities();
-  });
+  }, []);
 
   return (
     <div className={classes.searchBar}>

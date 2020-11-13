@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core";
 import Clock from "../components/clock";
 import logoBig from "../assets/images/logo.png";
@@ -31,6 +31,17 @@ const logo = {
 
 function MainWeather() {
   const classes = useStyles();
+  const [dayWindows, setDayWindows] = useState(null);
+  const [weatherArray, setWeatherArray] = useState(null);
+
+  function fetch() {
+    const dayWindowsArray = [0, 1, 2, 3, 4];
+    setDayWindows(dayWindowsArray);
+  }
+
+  useEffect(() => {
+    fetch();
+  }, []);
 
   return (
     <div className={classes.contentContainer}>
@@ -60,7 +71,7 @@ function MainWeather() {
           </Grid>
         </Grid>
       </div>
-      <DayWindow />
+      {dayWindows && dayWindows.map(dayWindow => <DayWindow key={dayWindow} />)}
     </div>
   );
 }

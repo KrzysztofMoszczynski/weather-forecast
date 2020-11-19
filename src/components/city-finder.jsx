@@ -38,7 +38,6 @@ function CityFinder(props) {
   }
 
   function chooseCity() {
-    console.log(value);
     setValue("");
   }
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { makeStyles, Typography } from "@material-ui/core";
 import logoBig from "../assets/images/logo.png";
 import CityFinder from "../components/city-finder";
@@ -26,17 +26,36 @@ const logo = {
   height: "20%",
 };
 
-function Home() {
+function Home({ setWeatherData, setCityData, dataLoaded }) {
   const classes = useStyles();
-  const [cityNotFound, setCityNotFound] = useState(true);
+  const [cityNotFound, setCityNotFound] = useState(false);
   const [cityName, setCityName] = useState("");
+  const [redirect, setRedirect] = useState(null);
+  let history = useHistory();
 
   function handleSearch(cityName) {
-    setCityNotFound(!cityNotFound);
     setCityName(cityName);
     console.log(cityName);
-    database.getWeatherByCityName(cityName);
+    fetchWeather(cityName);
   }
+
+  async function fetchWeather(choosenCityName) {
+    const weather = await database.getWeatherByCityName(choosenCityName);
+    if (weather == false) {
+      setCityNotFound(true);
+    } else {
+      setCityData(weather[0]);
+      setWeatherData(weather[1]);
+      setCityNotFound(false);
+    }
+  }
+
+  useEffect(() => {
+    console.log(dataLoaded);
+    if (dataLoaded) {
+      history.push("./mainweather");
+    }
+  }, [dataLoaded]);
 
   return (
     <div className={classes.pageStyle}>
@@ -50,7 +69,7 @@ function Home() {
         Type the city you want to check the weather for:
       </Typography>
       <CityFinder handleSearch={handleSearch} />
-      {cityNotFound && <Link to='/mainweather'>Dowiedz się więcej</Link>}
+      <Link to='/mainweather'>Dowiedz się więcej</Link>
       {cityNotFound && (
         <div className={classes.noCityMessage}>
           <p>Ooops... it seems like we don't have your city in database.</p>

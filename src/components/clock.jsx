@@ -20,8 +20,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function Clock(props) {
-  //const time = new Date();
+function Clock({ timezone }) {
   const classes = useStyles();
   const [time, setTime] = useState(null);
   const [seconds, setSeconds] = useState(0);
@@ -30,6 +29,10 @@ function Clock(props) {
 
   function fetchTime() {
     let newTime = new Date();
+    let localOffset = newTime.getTimezoneOffset();
+    newTime.setTime(
+      newTime.getTime() + localOffset * 60 * 1000 + timezone * 1000
+    );
     if (newTime.getSeconds() < 10) {
       setSeconds("0" + newTime.getSeconds());
     } else {

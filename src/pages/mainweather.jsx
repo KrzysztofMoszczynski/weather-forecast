@@ -5,6 +5,7 @@ import logoBig from "../assets/images/logo.png";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import DayWindow from "../components/day-window";
+import ChooseCityButton from "../components/choose-city-button";
 
 const useStyles = makeStyles(theme => ({
   contentContainer: {
@@ -36,8 +37,6 @@ function MainWeather({ weatherData, cityData }) {
   const [dataLoaded, setDataLoaded] = useState(false);
 
   function fetch() {
-    console.log(weatherData);
-    console.log(cityData);
     const dayWindowsArray = [0, 1, 2, 3, 4];
     setDayWindows(dayWindowsArray);
     fetchWeatherArray();
@@ -49,12 +48,12 @@ function MainWeather({ weatherData, cityData }) {
       if (i % 8 == 0) helpArray.push([]);
       helpArray[parseInt(i / 8, 10)].push(weatherData[i]);
     }
-    console.log(helpArray);
     setWeatherArray(helpArray);
   }
 
   useEffect(() => {
     if (weatherArray) {
+      console.log(weatherArray);
       setDataLoaded(true);
     }
   }, [weatherArray]);
@@ -83,18 +82,25 @@ function MainWeather({ weatherData, cityData }) {
               />
             </Grid>
             <Grid item>
+              <ChooseCityButton />
               <Typography variant='h5' className={classes.cityDisplay}>
                 Weather for: <br />{" "}
                 {cityData.cityName + ", " + cityData.countryCode}
               </Typography>
             </Grid>
             <Grid item>
-              <Clock />
+              <Clock timezone={cityData.timezone} />
             </Grid>
           </Grid>
         </div>
-        {dayWindows &&
-          dayWindows.map(dayWindow => <DayWindow key={dayWindow} />)}
+        {weatherArray &&
+          weatherArray.map((weatherArrayItem, index) => (
+            <DayWindow
+              key={index}
+              weatherData={weatherArrayItem}
+              timezone={cityData.timezone}
+            />
+          ))}
       </div>
     );
   } else {

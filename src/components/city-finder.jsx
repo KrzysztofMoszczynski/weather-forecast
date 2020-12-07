@@ -27,11 +27,6 @@ function CityFinder(props) {
   const [value, setValue] = useState("");
   const handleChange = e => setValue(e.target.value);
 
-  async function fetchCities() {
-    // database daj miasta
-    console.log("city fetched");
-  }
-
   function handleSearchButtonClick() {
     chooseCity();
     props.handleSearch(value);
@@ -41,19 +36,9 @@ function CityFinder(props) {
     setValue("");
   }
 
-  useEffect(() => {
-    fetchCities();
-  }, []);
-
   return (
     <div className={classes.searchBar}>
       <div className={classes.searchInput}>
-        {/*<TextField
-        id='outlined-basic'
-        variant='outlined'
-        className={classes.searchBar}
-      >
-        </TextField>*/}
         <InputBase
           placeholder='Search city'
           value={value}

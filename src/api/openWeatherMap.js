@@ -7,15 +7,25 @@ const database = {
     const createWeatherList = (
       dateTime,
       temperature,
-      icon,
+      weatherMain,
+      weatherDescription,
       pressure,
       humidity,
-      wind
-    ) => ({ dateTime, temperature, icon, pressure, humidity, wind });
+      windSpeed
+    ) => ({
+      dateTime,
+      temperature,
+      weatherMain,
+      weatherDescription,
+      pressure,
+      humidity,
+      windSpeed,
+    });
 
-    const createCityData = (cityName, countryCode) => ({
+    const createCityData = (cityName, countryCode, timezone) => ({
       cityName,
       countryCode,
+      timezone,
     });
 
     const weatherList = [];
@@ -29,20 +39,22 @@ const database = {
       cityData = {
         cityName: response.data.city.name,
         countryCode: response.data.city.country,
+        timezone: response.data.city.timezone,
       };
+      console.log(response);
       weatherList.push(
         ...response.data.list.map(listElement =>
           createWeatherList(
             listElement.dt_txt,
             listElement.main.temp,
             listElement.weather[0].main,
+            listElement.weather[0].description,
             listElement.main.pressure,
             listElement.main.humidity,
-            listElement.wind
+            listElement.wind.speed
           )
         )
       );
-      //console.log(weatherList);
       return [cityData, weatherList];
     } catch (error) {
       console.log(error);

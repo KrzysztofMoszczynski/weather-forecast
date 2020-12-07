@@ -26,7 +26,7 @@ const logo = {
   height: "20%",
 };
 
-function Home({ setWeatherData, setCityData, dataLoaded }) {
+function Home({ setWeatherData, setCityData, dataLoaded, setDataLoaded }) {
   const classes = useStyles();
   const [cityNotFound, setCityNotFound] = useState(false);
   const [cityName, setCityName] = useState("");
@@ -35,7 +35,6 @@ function Home({ setWeatherData, setCityData, dataLoaded }) {
 
   function handleSearch(cityName) {
     setCityName(cityName);
-    console.log(cityName);
     fetchWeather(cityName);
   }
 
@@ -51,11 +50,15 @@ function Home({ setWeatherData, setCityData, dataLoaded }) {
   }
 
   useEffect(() => {
-    console.log(dataLoaded);
     if (dataLoaded) {
       history.push("./mainweather");
+      setDataLoaded(false);
     }
   }, [dataLoaded]);
+
+  /*useEffect(() => {
+    setDataLoaded(false);
+  }, []);*/
 
   return (
     <div className={classes.pageStyle}>
@@ -69,7 +72,6 @@ function Home({ setWeatherData, setCityData, dataLoaded }) {
         Type the city you want to check the weather for:
       </Typography>
       <CityFinder handleSearch={handleSearch} />
-      <Link to='/mainweather'>Dowiedz się więcej</Link>
       {cityNotFound && (
         <div className={classes.noCityMessage}>
           <p>Ooops... it seems like we don't have your city in database.</p>

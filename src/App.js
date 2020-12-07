@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
 import Home from "./pages/home";
 import MainWeather from "./pages/mainweather";
-import database from "./api/openWeatherMap";
 
 function App() {
   const [dataLoaded, setDataLoaded] = useState(false);
@@ -40,6 +39,7 @@ function App() {
                 setWeatherData={setWeatherData}
                 setCityData={setCityData}
                 dataLoaded={dataLoaded}
+                setDataLoaded={setDataLoaded}
               />
             )}
           ></Route>

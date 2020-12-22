@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
 import Home from "./pages/home";
 import MainWeather from "./pages/mainweather";
+import About from "./pages/about";
+import Statistical from "./pages/stastistical";
 
 function App() {
   const [dataLoaded, setDataLoaded] = useState(false);
@@ -29,7 +31,9 @@ function App() {
                 cityData={cityData}
               />
             )}
-          ></Route>
+          />
+          <Route exact path='/about' render={() => <About />} />
+          <Route exact path='/statistical' render={() => <Statistical />} />
           <Route
             exact
             path='/'
@@ -42,7 +46,7 @@ function App() {
                 setDataLoaded={setDataLoaded}
               />
             )}
-          ></Route>
+          />
         </Switch>
       </div>
     </Router>

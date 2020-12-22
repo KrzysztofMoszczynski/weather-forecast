@@ -22,12 +22,6 @@ const database = {
       windSpeed,
     });
 
-    const createCityData = (cityName, countryCode, timezone) => ({
-      cityName,
-      countryCode,
-      timezone,
-    });
-
     const weatherList = [];
     var cityData = {};
     try {
@@ -38,6 +32,7 @@ const database = {
 
       cityData = {
         cityName: response.data.city.name,
+        cityId: response.data.city.id,
         countryCode: response.data.city.country,
         timezone: response.data.city.timezone,
       };
@@ -61,6 +56,15 @@ const database = {
       return false;
     }
     //const weatherArray = await api.openweathermap.org/data/2.5/forecast?q={Warsaw}&appid={apiKey};
+  },
+  async getStatisticalData(city, day, month) {
+    const statisticalData = {};
+    try {
+      const response = await axios.get(
+        "https://api.openweathermap.org/data/2.5/forecast",
+        { params: { q: city, appid: apiKey } }
+      );
+    } catch (error) {}
   },
 };
 

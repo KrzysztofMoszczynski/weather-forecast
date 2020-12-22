@@ -2,13 +2,19 @@ import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { makeStyles, Typography } from "@material-ui/core";
 import logoBig from "../assets/images/logo.png";
+import InfoIcon from "@material-ui/icons/Info";
 import CityFinder from "../components/city-finder";
 import database from "../api/openWeatherMap";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   pageStyle: {
     textAlign: "center",
-    marginTop: "50px",
+    marginTop: "30px",
+  },
+  logo: {
+    width: "20%",
+    height: "20%",
+    marginLeft: 75,
   },
   typeCityText: {
     marginBottom: 30,
@@ -17,14 +23,13 @@ const useStyles = makeStyles(theme => ({
     color: "#FF0000",
     fontSize: 15,
   },
-}));
-
-const logo = {
-  src: logoBig,
-  alt: "logo",
-  width: "20%",
-  height: "20%",
-};
+  infoIcon: {
+    fontSize: 40,
+    paddingRight: 30,
+    float: "right",
+    cursor: "pointer",
+  },
+});
 
 function Home({ setWeatherData, setCityData, dataLoaded, setDataLoaded }) {
   const classes = useStyles();
@@ -36,6 +41,10 @@ function Home({ setWeatherData, setCityData, dataLoaded, setDataLoaded }) {
   function handleSearch(cityName) {
     setCityName(cityName);
     fetchWeather(cityName);
+  }
+
+  function handleInfoClick() {
+    history.push("/about");
   }
 
   async function fetchWeather(choosenCityName) {
@@ -56,18 +65,10 @@ function Home({ setWeatherData, setCityData, dataLoaded, setDataLoaded }) {
     }
   }, [dataLoaded]);
 
-  /*useEffect(() => {
-    setDataLoaded(false);
-  }, []);*/
-
   return (
     <div className={classes.pageStyle}>
-      <img
-        src={logo.src}
-        alt={logo.alt}
-        width={logo.width}
-        height={logo.height}
-      />
+      <img src={logoBig} className={classes.logo} />
+      <InfoIcon className={classes.infoIcon} onClick={handleInfoClick} />
       <Typography variant='h5' className={classes.typeCityText}>
         Type the city you want to check the weather for:
       </Typography>

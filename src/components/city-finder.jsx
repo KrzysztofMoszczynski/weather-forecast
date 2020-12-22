@@ -14,6 +14,7 @@ const useStyles = makeStyles({
     borderRadius: 8,
     backgroundColor: "white",
     display: "flex",
+    border: "2px solid #141414",
   },
   searchInput: {},
   searchIcon: {
@@ -28,12 +29,8 @@ function CityFinder(props) {
   const handleChange = e => setValue(e.target.value);
 
   function handleSearchButtonClick() {
-    chooseCity();
-    props.handleSearch(value);
-  }
-
-  function chooseCity() {
     setValue("");
+    props.handleSearch(value);
   }
 
   return (

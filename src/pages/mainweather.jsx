@@ -7,7 +7,7 @@ import Grid from "@material-ui/core/Grid";
 import DayWindow from "../components/day-window";
 import ChooseCityButton from "../components/choose-city-button";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   contentContainer: {
     margin: 30,
     marginTop: 10,

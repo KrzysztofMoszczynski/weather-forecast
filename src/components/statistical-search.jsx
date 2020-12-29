@@ -33,7 +33,7 @@ const useStyles = makeStyles({
   },
 });
 
-function StatisticalSearch({ handleSearch }) {
+const StatisticalSearch = ({ handleSearch }) => {
   const classes = useStyles();
   const [month, setMonth] = useState("");
   const [day, setDay] = useState("");
@@ -157,6 +157,6 @@ function StatisticalSearch({ handleSearch }) {
       </Grid>
     </div>
   );
-}
+};
 
 export default StatisticalSearch;

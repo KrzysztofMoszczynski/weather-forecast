@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core";
 import grey from "@material-ui/core/colors/grey";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   clockStyle: {
     background: grey[100],
     width: 200,
@@ -18,16 +18,16 @@ const useStyles = makeStyles(theme => ({
   lowerDate: {
     fontSize: 20,
   },
-}));
+});
 
-function Clock({ timezone }) {
+const Clock = ({ timezone }) => {
   const classes = useStyles();
   const [time, setTime] = useState(null);
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [hours, setHours] = useState(0);
 
-  function fetchTime() {
+  const fetchTime = () => {
     let newTime = new Date();
     let localOffset = newTime.getTimezoneOffset();
     newTime.setTime(
@@ -49,7 +49,7 @@ function Clock({ timezone }) {
       setHours(newTime.getHours());
     }
     setTime(newTime);
-  }
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -74,6 +74,6 @@ function Clock({ timezone }) {
       </div>
     );
   }
-}
+};
 
 export default Clock;

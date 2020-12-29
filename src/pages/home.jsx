@@ -39,22 +39,20 @@ const useStyles = makeStyles({
   },
 });
 
-function Home({ setWeatherData, setCityData, dataLoaded, setDataLoaded }) {
+const Home = ({ setWeatherData, setCityData, dataLoaded, setDataLoaded }) => {
   const classes = useStyles();
   const [cityNotFound, setCityNotFound] = useState(false);
-  const [cityName, setCityName] = useState("");
   let history = useHistory();
 
-  function handleSearch(cityName) {
-    setCityName(cityName);
+  const handleSearch = cityName => {
     fetchWeather(cityName);
-  }
+  };
 
-  function handleInfoClick() {
+  const handleInfoClick = () => {
     history.push("/about");
-  }
+  };
 
-  async function fetchWeather(choosenCityName) {
+  const fetchWeather = async choosenCityName => {
     const weather = await database.getWeatherByCityName(choosenCityName);
     if (weather == false) {
       setCityNotFound(true);
@@ -63,7 +61,7 @@ function Home({ setWeatherData, setCityData, dataLoaded, setDataLoaded }) {
       setWeatherData(weather[1]);
       setCityNotFound(false);
     }
-  }
+  };
 
   useEffect(() => {
     if (dataLoaded) {
@@ -94,6 +92,6 @@ function Home({ setWeatherData, setCityData, dataLoaded, setDataLoaded }) {
       )}
     </div>
   );
-}
+};
 
 export default Home;

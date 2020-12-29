@@ -5,7 +5,6 @@ import { makeStyles } from "@material-ui/core";
 import SunIcon from "../assets/images/sun.png";
 import CloudIcon from "../assets/images/cloud.png";
 import RainIcon from "../assets/images/rain.png";
-import HailIcon from "../assets/images/hail.png";
 import StormIcon from "../assets/images/storm.png";
 import HeavyRainIcon from "../assets/images/heavy-rain.png";
 import CloudsAndSunIcon from "../assets/images/clouds-and-sun.png";
@@ -118,7 +117,7 @@ const useStyles = makeStyles({
   },
 });
 
-function DayWindow({ weatherData, timezone }) {
+const DayWindow = ({ weatherData, timezone }) => {
   const classes = useStyles();
   const [isExpanded, setIsExpanded] = useState(false);
   const [avgIcon, setAvgIcon] = useState(null);
@@ -134,15 +133,14 @@ function DayWindow({ weatherData, timezone }) {
   const [pressureList, setPressureList] = useState(null);
   const [humidityList, setHumidityList] = useState(null);
 
-  function fetch() {
-    console.log(weatherData);
+  const fetch = () => {
     fetchPressure();
     fetchHumidity();
     fetchDatesAndHours();
     fetchTemperatures();
-  }
+  };
 
-  function fetchPressure() {
+  const fetchPressure = () => {
     let helpPressure = [];
     let sum = 0;
     for (let i = 0; i < weatherData.length; i++) {
@@ -152,9 +150,9 @@ function DayWindow({ weatherData, timezone }) {
     let avgPressure = parseInt(sum / weatherData.length);
     setAvgPressure(avgPressure);
     setPressureList(helpPressure);
-  }
+  };
 
-  function fetchHumidity() {
+  const fetchHumidity = () => {
     let helpHumidity = [];
     let sum = 0;
     for (let i = 0; i < weatherData.length; i++) {
@@ -164,9 +162,9 @@ function DayWindow({ weatherData, timezone }) {
     let avgHumidity = parseInt(sum / weatherData.length);
     setAvgHumidity(avgHumidity);
     setHumidityList(helpHumidity);
-  }
+  };
 
-  function fetchDatesAndHours() {
+  const fetchDatesAndHours = () => {
     let helpHours = [];
     let helpDates = [];
     let hourToFormat;
@@ -198,9 +196,9 @@ function DayWindow({ weatherData, timezone }) {
     setHours(helpHours);
     setDates(helpDates);
     fetchIcons(helpHours);
-  }
+  };
 
-  function fetchTemperatures() {
+  const fetchTemperatures = () => {
     let tempList = [];
     let helpTemp;
     let maxTemp = -100;
@@ -217,9 +215,9 @@ function DayWindow({ weatherData, timezone }) {
     setMinTemp(minTemp);
     setMaxTemp(maxTemp);
     setTempList(tempList);
-  }
+  };
 
-  function fetchIcons(helpHours) {
+  const fetchIcons = helpHours => {
     let helpIconArray = [];
     let weatherMain;
     let weatherDescription;
@@ -275,9 +273,9 @@ function DayWindow({ weatherData, timezone }) {
     let avgIcon = mode(helpIconArray);
     setAvgIcon(avgIcon);
     setIconsList(helpIconArray);
-  }
+  };
 
-  function mode(array) {
+  const mode = array => {
     if (array.length == 0) return null;
     var modeMap = {};
     var maxEl = array[0],
@@ -293,16 +291,16 @@ function DayWindow({ weatherData, timezone }) {
       }
     }
     return maxEl;
-  }
+  };
 
-  function handleExpandButton() {
+  const handleExpandButton = () => {
     if (isExpanded) setIsExpanded(false);
     else setIsExpanded(true);
-  }
+  };
 
-  function handleHourClick(index) {
+  const handleHourClick = index => {
     setButtonIndex(index);
-  }
+  };
 
   useEffect(() => {
     fetch();
@@ -456,6 +454,6 @@ function DayWindow({ weatherData, timezone }) {
   } else {
     return <></>;
   }
-}
+};
 
 export default DayWindow;

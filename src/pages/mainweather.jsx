@@ -7,13 +7,12 @@ import Grid from "@material-ui/core/Grid";
 import DayWindow from "../components/day-window";
 import ChooseCityButton from "../components/choose-city-button";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles({
   contentContainer: {
     margin: 30,
     marginTop: 10,
   },
   topBar: {
-    //margin: "auto",
     display: "flex",
   },
   logoTop: {},
@@ -21,7 +20,7 @@ const useStyles = makeStyles(() => ({
     textAlign: "center",
     fontWeight: "bold",
   },
-}));
+});
 
 const logo = {
   src: logoBig,
@@ -30,36 +29,28 @@ const logo = {
   height: "90%",
 };
 
-function MainWeather({ weatherData, cityData }) {
+const MainWeather = ({ weatherData, cityData }) => {
   const classes = useStyles();
-  const [dayWindows, setDayWindows] = useState(null);
   const [weatherArray, setWeatherArray] = useState(null);
   const [dataLoaded, setDataLoaded] = useState(false);
 
-  function fetch() {
-    const dayWindowsArray = [0, 1, 2, 3, 4];
-    setDayWindows(dayWindowsArray);
-    fetchWeatherArray();
-  }
-
-  function fetchWeatherArray() {
+  const fetchWeatherArray = () => {
     let helpArray = [];
     for (let i = 0; i < weatherData.length; i++) {
       if (i % 8 == 0) helpArray.push([]);
       helpArray[parseInt(i / 8, 10)].push(weatherData[i]);
     }
     setWeatherArray(helpArray);
-  }
+  };
 
   useEffect(() => {
     if (weatherArray) {
-      console.log(weatherArray);
       setDataLoaded(true);
     }
   }, [weatherArray]);
 
   useEffect(() => {
-    fetch();
+    fetchWeatherArray();
   }, []);
 
   if (dataLoaded) {
@@ -106,6 +97,6 @@ function MainWeather({ weatherData, cityData }) {
   } else {
     return <></>;
   }
-}
+};
 
 export default MainWeather;

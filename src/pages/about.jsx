@@ -49,7 +49,7 @@ const useStyles = makeStyles({
   },
 });
 
-function About() {
+const About = () => {
   const classes = useStyles();
 
   return (
@@ -99,6 +99,6 @@ function About() {
       </Grid>
     </div>
   );
-}
+};
 
 export default About;

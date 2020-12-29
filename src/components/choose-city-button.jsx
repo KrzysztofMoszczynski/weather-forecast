@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core";
-import { useHistory, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
   chooseCityButton: {
@@ -13,7 +13,7 @@ const useStyles = makeStyles({
   },
 });
 
-function ChooseCityButton() {
+const ChooseCityButton = () => {
   const classes = useStyles();
 
   return (
@@ -25,6 +25,6 @@ function ChooseCityButton() {
       </Link>
     </div>
   );
-}
+};
 
 export default ChooseCityButton;

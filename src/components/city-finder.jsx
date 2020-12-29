@@ -16,22 +16,20 @@ const useStyles = makeStyles({
     display: "flex",
     border: "2px solid #141414",
   },
-  searchInput: {},
   searchIcon: {
     marginLeft: 40,
   },
 });
 
-function CityFinder(props) {
+const CityFinder = props => {
   const classes = useStyles();
-  const [choosenCity, setCity] = useState(null);
   const [value, setValue] = useState("");
   const handleChange = e => setValue(e.target.value);
 
-  function handleSearchButtonClick() {
+  const handleSearchButtonClick = () => {
     setValue("");
     props.handleSearch(value);
-  }
+  };
 
   return (
     <div className={classes.searchBar}>
@@ -49,6 +47,6 @@ function CityFinder(props) {
       </div>
     </div>
   );
-}
+};
 
 export default CityFinder;

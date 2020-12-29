@@ -6,7 +6,7 @@ import MainWeather from "./pages/mainweather";
 import About from "./pages/about";
 import Statistical from "./pages/stastistical";
 
-function App() {
+const App = () => {
   const [dataLoaded, setDataLoaded] = useState(false);
   const [cityData, setCityData] = useState(null);
   const [weatherData, setWeatherData] = useState(null);
@@ -51,6 +51,6 @@ function App() {
       </div>
     </Router>
   );
-}
+};
 
 export default App;

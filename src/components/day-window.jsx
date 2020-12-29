@@ -19,7 +19,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 const useStyles = makeStyles({
   container: {
-    backgroundColor: "#273DFF",
+    backgroundColor: "#00031F",
     color: "#EFEFEF",
     padding: 10,
     margin: 20,

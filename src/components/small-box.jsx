@@ -14,7 +14,7 @@ const useStyles = makeStyles({
   },
   label: {
     verticalAlign: "top",
-    fontSize: 30,
+    fontSize: 25,
   },
   value: {
     verticalAlign: "bottom",

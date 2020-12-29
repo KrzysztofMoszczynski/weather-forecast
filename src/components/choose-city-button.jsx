@@ -15,11 +15,6 @@ const useStyles = makeStyles({
 
 function ChooseCityButton() {
   const classes = useStyles();
-  const history = useHistory();
-
-  /*function handleButtonClick() {
-    history.replace("/");
-  }*/
 
   return (
     <div>

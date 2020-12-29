@@ -23,7 +23,7 @@ const database = {
     });
 
     const weatherList = [];
-    var cityData = {};
+    let cityData = {};
     try {
       const response = await axios.get(
         "https://api.openweathermap.org/data/2.5/forecast",
@@ -57,14 +57,44 @@ const database = {
     }
     //const weatherArray = await api.openweathermap.org/data/2.5/forecast?q={Warsaw}&appid={apiKey};
   },
-  async getStatisticalData(city, day, month) {
+  async getStatisticalData(city, month, day) {
     const statisticalData = {};
     try {
-      const response = await axios.get(
+      let cityData;
+      let statisticalData;
+      const responseID = await axios.get(
         "https://api.openweathermap.org/data/2.5/forecast",
         { params: { q: city, appid: apiKey } }
       );
-    } catch (error) {}
+      cityData = {
+        id: responseID.data.city.id,
+        name: responseID.data.city.name,
+        country: responseID.data.city.country,
+      };
+      const response = await axios.get(
+        "https://history.openweathermap.org/data/2.5/aggregated/day",
+        { params: { id: cityData.id, month: month, day: day, appid: apiKey } }
+      );
+      statisticalData = {
+        month: month,
+        day: day,
+        avgPressure: response.data.result.pressure.mean,
+        avgHumidity: response.data.result.humidity.mean,
+        avgWind: response.data.result.wind.mean,
+        avgPrecipitation: response.data.result.precipitation.mean,
+        temperature: {
+          avg: response.data.result.temp.mean,
+          avgMax: response.data.result.temp.average_max,
+          avgMin: response.data.result.temp.average_min,
+        },
+      };
+      console.log(statisticalData);
+      console.log(cityData);
+      return [cityData, statisticalData];
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
   },
 };
 

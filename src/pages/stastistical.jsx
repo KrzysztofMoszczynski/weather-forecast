@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core";
+import { Link } from "react-router-dom";
 import logoSmall from "../assets/images/logo.png";
 import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
 import StatisticalSearch from "../components/statistical-search";
-import SmallBox from "../components/small-box";
-import TemperatureBox from "../components/temperature-box";
+import StatisticalDisplay from "../components/statistical-display";
+import database from "../api/openWeatherMap";
 
 const useStyles = makeStyles({
   pageStyle: {
@@ -25,10 +25,6 @@ const useStyles = makeStyles({
   search: {
     textAlign: "center",
   },
-  foundCityMessage: {
-    fontSize: 20,
-    textAlign: "center",
-  },
   noCityMessage: {
     color: "#FF0000",
     fontSize: 20,
@@ -38,18 +34,39 @@ const useStyles = makeStyles({
 
 function Statistical() {
   const classes = useStyles();
-  const [dataLoaded, setDataLoaded] = useState(true);
+  const [dataLoaded, setDataLoaded] = useState(false);
+  const [firstSearch, setFirstSearch] = useState(true);
+  const [statisticalData, setStatisticalData] = useState(null);
+  const [cityData, setCityData] = useState(null);
 
-  const handleSearch = (city, month, day) => {
+  const handleSearch = async (city, month, day) => {
     console.log(city + "  " + month + "  " + day);
+    const result = await database.getStatisticalData(city, month, day);
+    if (result != false) {
+      setCityData(result[0]);
+      setStatisticalData(result[1]);
+    } else {
+      setDataLoaded(false);
+    }
+    setFirstSearch(false);
   };
+
+  useEffect(() => {
+    if (statisticalData && cityData) {
+      setDataLoaded(true);
+    } else {
+      setDataLoaded(false);
+    }
+  }, [statisticalData, cityData]);
 
   return (
     <div className={classes.pageStyle}>
       <Grid container direction='column' spacing={2}>
         <Grid item container justify='space-between'>
           <Grid item xs={4}>
-            <img src={logoSmall} className={classes.logo} />
+            <Link to='/' style={{ textDecoration: "none" }}>
+              <img src={logoSmall} className={classes.logo} />
+            </Link>
           </Grid>
           <Grid item xs={4}>
             <div className={classes.title}>Choose the city and date:</div>
@@ -61,23 +78,17 @@ function Statistical() {
         </Grid>
         <Grid item container justify='center'>
           {dataLoaded ? (
-            <Grid item>
-              <div className={classes.foundCityMessage}>
-                <p>Warsaw, PL</p>
-                <p>Statistical data for 10th of May</p>
-              </div>
-              {/*<SmallBox label='label' value='100' units='W' />*/}
-              <TemperatureBox average='10' max='13' min='8' />
-            </Grid>
+            <StatisticalDisplay
+              cityData={cityData}
+              statisticalData={statisticalData}
+            />
+          ) : firstSearch ? (
+            <div></div>
           ) : (
-            <Grid item>
-              <div className={classes.noCityMessage}>
-                <p>
-                  Ooops... it seems like we don't have your city in database.
-                </p>
-                <p>Try another city or check if there is no typo.</p>
-              </div>
-            </Grid>
+            <div className={classes.noCityMessage}>
+              <p>Ooops... it seems like we don't have your city in database.</p>
+              <p>Try another city or check if there is no typo.</p>
+            </div>
           )}
         </Grid>
       </Grid>

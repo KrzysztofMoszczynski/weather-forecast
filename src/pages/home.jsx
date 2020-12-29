@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { makeStyles, Typography } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
 import logoBig from "../assets/images/logo.png";
 import InfoIcon from "@material-ui/icons/Info";
 import CityFinder from "../components/city-finder";
@@ -29,13 +30,19 @@ const useStyles = makeStyles({
     float: "right",
     cursor: "pointer",
   },
+  linkButton: {
+    backgroundColor: "#C4C4C4",
+    borderRadius: 13,
+    textAlign: "center",
+    marginTop: 30,
+    fontWeight: 600,
+  },
 });
 
 function Home({ setWeatherData, setCityData, dataLoaded, setDataLoaded }) {
   const classes = useStyles();
   const [cityNotFound, setCityNotFound] = useState(false);
   const [cityName, setCityName] = useState("");
-  const [redirect, setRedirect] = useState(null);
   let history = useHistory();
 
   function handleSearch(cityName) {
@@ -73,6 +80,12 @@ function Home({ setWeatherData, setCityData, dataLoaded, setDataLoaded }) {
         Type the city you want to check the weather for:
       </Typography>
       <CityFinder handleSearch={handleSearch} />
+
+      <Link to='/statistical' style={{ textDecoration: "none" }}>
+        <Button className={classes.linkButton}>
+          Check statistical data <br /> for choosen city
+        </Button>
+      </Link>
       {cityNotFound && (
         <div className={classes.noCityMessage}>
           <p>Ooops... it seems like we don't have your city in database.</p>

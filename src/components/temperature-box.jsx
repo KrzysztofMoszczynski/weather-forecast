@@ -4,7 +4,7 @@ import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles({
   box: {
-    height: 500,
+    height: 470,
     width: 300,
     backgroundColor: "#00031F",
     color: "#F8F8F8",
@@ -12,13 +12,17 @@ const useStyles = makeStyles({
     textAlign: "center",
     paddingTop: 10,
     paddingBottom: 10,
+    "& p": {
+      margin: 8,
+    },
   },
-  label: {
-    verticalAlign: "top",
+  title: {
     fontSize: 30,
   },
+  label: {
+    fontSize: 20,
+  },
   value: {
-    verticalAlign: "bottom",
     fontSize: 40,
   },
 });
@@ -28,19 +32,19 @@ const TemperatureBox = ({ average, max, min }) => {
 
   return (
     <div className={classes.box}>
-      <p>Temperature</p>
+      <p className={classes.title}>Temperature</p>
       <Grid container direction='column' spacing={5}>
         <Grid item>
-          <p>Average</p>
-          <p>{average + "°C"}</p>
+          <p className={classes.label}>Average</p>
+          <p className={classes.value}>{average + "°C"}</p>
         </Grid>
         <Grid item>
-          <p>Average max</p>
-          <p>{max + "°C"}</p>
+          <p className={classes.label}>Average max</p>
+          <p className={classes.value}>{max + "°C"}</p>
         </Grid>
         <Grid item>
-          <p>Average min</p>
-          <p>{min + "°C"}</p>
+          <p className={classes.label}>Average min</p>
+          <p className={classes.value}>{min + "°C"}</p>
         </Grid>
       </Grid>
     </div>

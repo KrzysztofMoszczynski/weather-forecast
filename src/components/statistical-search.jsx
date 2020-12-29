@@ -67,10 +67,6 @@ function StatisticalSearch({ handleSearch }) {
   };
 
   const handleSearchButtonClick = () => {
-    setCity("");
-    setMonth("");
-    setDay("");
-    setDayList([]);
     handleSearch(city, month, day);
   };
 

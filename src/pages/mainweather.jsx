@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 import Clock from "../components/clock";
 import logoBig from "../assets/images/logo.png";
 import Typography from "@material-ui/core/Typography";
@@ -31,6 +32,7 @@ const logo = {
 
 const MainWeather = ({ weatherData, cityData }) => {
   const classes = useStyles();
+  let history = useHistory();
   const [weatherArray, setWeatherArray] = useState(null);
   const [dataLoaded, setDataLoaded] = useState(false);
 
@@ -50,7 +52,11 @@ const MainWeather = ({ weatherData, cityData }) => {
   }, [weatherArray]);
 
   useEffect(() => {
-    fetchWeatherArray();
+    if (weatherData == null || cityData == null) {
+      history.push("/");
+    } else {
+      fetchWeatherArray();
+    }
   }, []);
 
   if (dataLoaded) {
